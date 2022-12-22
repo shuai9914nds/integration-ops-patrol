@@ -3,6 +3,23 @@ spring:
     nacos:
       discovery:
         server-addr: 172.16.24.4:8848 #注册中心地址,多个地址用逗号隔开
+    stream:
+      rocketmq:
+        binder:
+          name-server: 127.0.0.1:9876
+        bindings:
+          input:
+            consumer:
+              enabled: true # 是否开启消费，默认为 true
+              broadcasting: true # 是否使用广播消费，默认为 false（使用集群消费）
+      bindings:
+        output:
+          destination: test-topic
+          content-type: application/json
+        input:
+          destination: test-topic
+          content-type: application/json
+          group: test-group
   shardingsphere:
     props:
       sql-show: true
