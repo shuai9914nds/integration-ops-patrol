@@ -1,0 +1,46 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.16.24.4:8848 #注册中心地址,多个地址用逗号隔开
+  shardingsphere:
+    props:
+      sql-show: true
+    datasource:
+      ds0:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://xxx.xxx.xxx.xx:3306/immp?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+        password: xxxxxx
+        type: com.zaxxer.hikari.HikariDataSource
+        username: root
+      names: ds0
+    rules:
+      sharding:
+        tables:
+          immp_system_log:
+            actualDataNodes: ds0.immp_system_log_${0..19}
+            tableStrategy:
+              standard:
+                shardingColumn: id
+                shardingAlgorithmName: immp-system-log-inline
+            keyGenerateStrategy:
+              column: id
+              keyGeneratorName: snowflake
+              allowHintDisable: true
+        shardingAlgorithms:
+          immp-system-log-inline:
+            type: INLINE
+            props:
+              algorithm-expression: immp_system_log_${id % 20}
+        keyGenerators:
+          snowflake:
+            type: SNOWFLAKE
+    enabled: true
+
+
+
+  redis:
+    database: 6
+    host: 49.4.94.24
+    password: Reconova_123456
+    port: 6379
