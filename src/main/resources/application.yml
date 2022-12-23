@@ -3,6 +3,7 @@ spring:
     include: @patrol.profile@
   application:
     name: @project.artifactId@
+    token-name: X-TOKEN
 
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
